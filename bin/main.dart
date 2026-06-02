@@ -20,7 +20,7 @@ void checkType(String command) {
   final String toCheck = command.substring(5);
   final List<String> builtIns = ["type", "echo", "exit"];
   print(
-    "$toCheck${builtIns.contains(toCheck) ? " is a shell built in" : ": not found"}",
+    "$toCheck${builtIns.contains(toCheck) ? " is a shell builtin" : ": not found"}",
   );
 }
 
