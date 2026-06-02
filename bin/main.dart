@@ -22,6 +22,9 @@ void main(List<String> arguments) {
 
 void checkType(String command) {
   final String toCheck = command.substring(4).trim();
+  if (toCheck == "type") {
+    checkForExecutable(command);
+  }
   final List<String> builtIns = ["type", "echo", "exit"];
   print(
     "$toCheck${builtIns.contains(toCheck) ? " is a shell builtin" : ": not found"}",
