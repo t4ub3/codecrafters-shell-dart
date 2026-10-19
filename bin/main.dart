@@ -47,11 +47,9 @@ void checkForExecutable(String command) {
   final paths = Platform.environment['PATH']?.split(pathSep) ?? [];
   for (var path in paths) {
     final fullPath = p.join(path, command);
-    if (File(fullPath).existsSync()) {
-      if (isExecutable(fullPath)) {
-        print("$command is $fullPath");
-        return;
-      }
+    if (File(fullPath).existsSync() && isExecutable(fullPath)) {
+      print("$command is $fullPath");
+      return;
     }
   }
   print("${command}: not found");
