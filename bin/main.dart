@@ -15,15 +15,16 @@ void main(List<String> arguments) {
     } else if (command == "exit") {
       break;
     } else {
-      checkForExecutable(command);
+      break;
+      // checkForExecutable(command);
     }
   }
 }
 
-void checkType(String command) {
+void checkType(String command) async {
   final String toCheck = command.substring(4).trim();
   if (toCheck == "type") {
-    checkForExecutable(command);
+    await checkForExecutable(command);
   }
   final List<String> builtIns = ["type", "echo", "exit"];
   print(
@@ -31,19 +32,21 @@ void checkType(String command) {
   );
 }
 
-void checkForExecutable(String command) async {
+Future<void> checkForExecutable(String command) async {
+  final execString = command.substring(4);
   final pathSep = isWindows ? ';' : ':';
   final paths = Platform.environment['PATH']?.split(pathSep) ?? [];
+  print(paths);
   for (var path in paths) {
-    final fullPath = p.join(path, command);
-    if (await fileExists(path, command)) {
+    final fullPath = p.join(path, execString);
+    if (await fileExists(path, execString)) {
       if (await isExecutable(fullPath)) {
-        print("$command is $fullPath");
+        print("$execString is $fullPath");
         return;
       }
     }
   }
-  print("${command}: command not found");
+  print("${execString}: not found");
 }
 
 Future<bool> fileExists(String directoryPath, String fileName) async {
