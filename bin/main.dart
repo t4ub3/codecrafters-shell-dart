@@ -34,7 +34,6 @@ void main(List<String> arguments) {
 
 void checkType(String subCommand) {
   final String toCheck = subCommand.split(" ").first;
-  print(toCheck);
   if (builtIn.contains(toCheck)) {
     print("$toCheck is a shell builtin");
   } else {
