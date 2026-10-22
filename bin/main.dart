@@ -10,24 +10,35 @@ final List<String> paths =
 const List<String> builtIn = ["type", "echo", "exit"];
 
 void main(List<String> arguments) {
+  shellLoop:
   while (true) {
     stdout.write('\$ ');
     final String commandLine = stdin.readLineSync()!;
     final splitCmd = split(commandLine, " ", max: 1);
     final String command = splitCmd[0];
-    final String subCommand = splitCmd[1];
-    switch (command) {
-      case "exit":
-        break;
-      case "echo":
-        print(subCommand);
-        break;
-      case "type":
-        checkType(subCommand);
-        break;
-      default:
-        checkForExecutable(command);
-        break;
+    if (splitCmd.length == 1) {
+      // process commands without subcommands
+      switch (command) {
+        case "exit":
+          break shellLoop;
+        default:
+          checkForExecutable(command);
+          break;
+      }
+    } else {
+      // process subcommands
+      final String subCommand = splitCmd[1];
+      switch (command) {
+        case "echo":
+          print(subCommand);
+          break;
+        case "type":
+          checkType(subCommand);
+          break;
+        default:
+          checkForExecutable(command);
+          break;
+      }
     }
   }
 }
@@ -37,7 +48,7 @@ void checkType(String subCommand) {
   if (builtIn.contains(toCheck)) {
     print("$toCheck is a shell builtin");
   } else {
-    checkForExecutable(toCheck);
+    print("$toCheck: not found");
   }
 }
 
