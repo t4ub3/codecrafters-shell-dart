@@ -48,7 +48,7 @@ void checkType(String subCommand) {
   if (builtIn.contains(toCheck)) {
     print("$toCheck is a shell builtin");
   } else {
-    print("$toCheck: not found");
+    checkForExecutable(toCheck);
   }
 }
 
